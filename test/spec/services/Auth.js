@@ -8,8 +8,8 @@ describe('Service: Auth', function() {
   var $rootScope;
   var $httpBackend;
 
-  var sessionURL = 'auth/session';
-  var userURL = 'auth/users';
+  var sessionURL = '/auth/session';
+  var userURL = '/auth/users';
 
   beforeEach(inject(function(_Auth_, _$rootScope_, _$httpBackend_) {
     Auth         = _Auth_;
@@ -21,7 +21,7 @@ describe('Service: Auth', function() {
       'email': 'test',
       'password': 'pass',
       'username': 'bob'
-    }
+    };
   }));
 
   // Login

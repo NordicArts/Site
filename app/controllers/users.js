@@ -39,7 +39,7 @@ exports.show = function(req, res, next) {
   })
 };
 
-exports.exists = function(req, res, next) {
+exports.exists = function(req, res, next) {  
   var username = req.params.username;
   User.findOne({
     username: username

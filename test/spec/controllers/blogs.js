@@ -45,7 +45,7 @@ describe('Controller Blogs', function() {
       $routeParams: routeParams
     });
 
-    $httpBackend.expectGET('api/blogs/' + blogs.id).respond(blogs);
+    $httpBackend.expectGET('api/blogs/' + blog.id).respond(blog);
     scope.findOne();
     $httpBackend.flush();
     expect(scope.blog.name).toBe(blog.name);

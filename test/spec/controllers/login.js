@@ -8,7 +8,7 @@ describe('Controller: LoginCtrl', function() {
   var $httpBackend;
 
   beforeEach(inject(function(_$httpBackend_, $controller, $rootScope) {
-    $httpBackened  = _$httpBackend_;
+    $httpBackend  = _$httpBackend_;
     scope          = $rootScope.$new();
     LoginCtrl      = $controller('LoginCtrl', {
       $scope: scope

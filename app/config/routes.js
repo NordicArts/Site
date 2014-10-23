@@ -8,7 +8,7 @@ module.exports = function(app) {
   var users = require('../controllers/users');
   app.post('/auth/users', users.create);
   app.get('/auth/users/:userid', users.show);
-  app.get('/auth/check_username/:username', users.exist); // Check
+  app.get('/auth/check_username/:username', users.exists); // Check
   
   // Session
   var session = require('../controllers/session');

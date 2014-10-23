@@ -23,6 +23,8 @@ describe('Directive: mongooseError', function() {
 
     browserTrigger(element, 'keydown');
     scope.$digest();
+    
+    console.log(scope.form.$error);
 
     expect(scope.form.model.$error.mongoose).toBe(false);
   }));
