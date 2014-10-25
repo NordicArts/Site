@@ -1,0 +1,21 @@
+'use strict';
+
+angular.module('NordicArtsApp').controller('NavbarCtrl', ['$scope', 'Auth', '$location', function ($scope, Auth, $location) {
+  $scope.menu = [{
+    'title': 'Blogs',
+    'link': 'blogs'
+  }];
+  
+  $scope.authMenu = [{
+    'title': 'Create New Blog',
+    'link': 'blogs/create'
+  }];
+
+  $scope.logout = function() {
+    Auth.logout(function(err) {
+      if(!err) {
+        $location.path('/login');
+      }
+    });
+  };
+}]);
