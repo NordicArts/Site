@@ -4,19 +4,29 @@ var mongoose  = require('mongoose');
 var User      = mongoose.model('User');
 var passport  = require('passport');
 var ObjectId  = mongoose.Types.ObjectId;
+var UserLevel = mongoose.model('UserLevel');
 
 exports.create = function(req, res, next) {
-  var newUser       = new User(req.body);
-  newUser.provider  = 'local';
-  newUser.save(function(error) {
+  var levelId;
+  
+  UserLevel.findByLevel('Registered', function(error, level) {
     if (error) {
-      return res.json(400, error);
+      return res.status(400).json(error);
     }
-    req.logIn(newUser, function(error) {
+    
+    var newUser       = new User(req.body);
+    newUser.provider  = 'local';
+    newUser.level     = ObjectId(level._id);
+    newUser.save(function(error) {
       if (error) {
-        return next(error);
+        return res.status(400).json(error);
       }
-      return res.json(newUser.user_info);
+      req.logIn(newUser, function(error) {
+        if (error) {
+          return next(error);
+        }
+        return res.json(newUser.user_info);
+      });
     });
   });
 };
@@ -34,7 +44,7 @@ exports.show = function(req, res, next) {
         profile: user.profile
       });
     } else {
-      res.send(404, 'USER_NOT_FOUND');
+      res.status(404, 'USER_NOT_FOUND');
     }
   })
 };
@@ -48,13 +58,33 @@ exports.exists = function(req, res, next) {
       return next(new Error('Failed to load user: ' + username));
     }
     if (user) {
-      req.json({
+      res.json({
         exists: true
       });
     } else {
-      req.json({
+      res.json({
         exists: false
       });
     }
   });
+};
+
+exports.checkLevel = function(req, res, next) {
+  var userId = req.params.userid;
+  var level  = req.params.level;
+  
+  User.findById(Object(userId), function(error, user) {
+    if (error) {
+      return next(new Error('Failed to load user'));
+    }
+  });
+};
+
+exports.updateLevel = function(req, res, next) {
+  var userId       = req.params.userid;
+  var userLevel    = req.params.level;
+  var targetId     = req.params.targetid;
+  var targetLevel  = req.params.targetlevel;
+  
+    
 };

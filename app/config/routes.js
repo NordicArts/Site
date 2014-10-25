@@ -9,12 +9,13 @@ module.exports = function(app) {
   app.post('/auth/users', users.create);
   app.get('/auth/users/:userid', users.show);
   app.get('/auth/check_username/:username', users.exists); // Check
+  app.post('/auth/check_level', users.checkLevel);
   
   // Session
   var session = require('../controllers/session');
   app.get('/auth/session', auth.ensureAuthenticated, session.session);
   app.post('/auth/session', session.login);
-  app.del('/auth/session', session.logout);
+  app.delete('/auth/session', session.logout);
   
   // Blog
   var blogs = require('../controllers/blogs');
@@ -22,7 +23,11 @@ module.exports = function(app) {
   app.post('/api/blogs', auth.ensureAuthenticated, blogs.create);
   app.get('/api/blogs/:blogId', blogs.show);
   app.put('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.update);
-  app.del('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.destroy);
+  app.delete('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.destroy);
+  
+  // Levels
+  var levels = require('../controllers/levels');
+  app.post('/api/levels', levels.create);
   
   // BlogId
   app.param('blogId', blogs.blog);

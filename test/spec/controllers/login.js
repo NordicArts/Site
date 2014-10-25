@@ -15,7 +15,7 @@ describe('Controller: LoginCtrl', function() {
     });
 
     // Mock Form
-    scope.optionsForm                     = { model: {}};
+    scope.optionsForm                     = { model: {} };
     scope.optionsForm.model.$setValidity  = function() {};
 
     // Mock User

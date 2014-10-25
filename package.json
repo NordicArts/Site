@@ -1,5 +1,5 @@
 {
-  "name": "NordicArts",
+  "name": "NordicArtsApp",
   "version": "0.0.1",
   "description": "NordicArts",
   "main": "server.js",
@@ -9,14 +9,22 @@
   "author": "Keloran",
   "license": "ISC",
   "dependencies": {
-    "underscore": "^1.7.0",
-    "ejs": "^1.0.0",
-    "passport-local": "^1.0.0",
-    "passport": "^0.2.1",
-    "express": "^4.9.8",
-    "connect-mongo": "^0.4.1",
-    "mongoose": "^3.8.17",
-    "express-session": "^1.9.0"
+    "express": "latest",
+    "body-parser": "latest",
+    "multer": "latest",
+    "errorhandler": "latest",
+    "express-session": "latest",
+    "method-override": "latest",
+    "morgan": "latest",
+    "serve-favicon": "latest",
+    "cookie-parser": "latest",
+    "connect-mongo": "latest",
+    "passport": "latest",
+    "passport-local": "latest",
+    "mongoose": "latest",
+    "ejs": "latest",
+    "underscore": "latest",
+    "lodash": "latest"
   },
   "devDependencies": {
     "grunt": "latest",
@@ -25,6 +33,7 @@
     "grunt-contrib-clean": "latest",
     "grunt-contrib-coffee": "latest",
     "grunt-contrib-compass": "latest",
+    "grunt-contrib-concat": "latest",
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
     "grunt-contrib-htmlmin": "latest",
@@ -33,7 +42,7 @@
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-google-cdn": "latest",
-    "grunt-ngmin": "latest",
+    "grunt-ng-annotate": "latest",
     "grunt-rev": "latest",
     "grunt-svgmin": "latest",
     "grunt-usemin": "latest",
@@ -45,11 +54,20 @@
     "karma-ng-scenario": "latest",
     "grunt-karma": "latest",
     "karma-requirejs": "latest",
+    "karma-firefox-launcher": "latest",
     "karma-html2js-preprocessor": "latest",
     "karma-script-launcher": "latest",
+    "karma-chrome-launcher": "latest",
     "karma-jasmine": "latest",
+    "karma-coffee-preprocessor": "latest",
     "karma-phantomjs-launcher": "latest",
     "karma": "latest",
     "karma-ng-html2js-preprocessor": "latest"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
   }
 }

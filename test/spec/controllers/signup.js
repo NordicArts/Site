@@ -15,7 +15,7 @@ describe('Controller: SignupCtrl', function() {
     });
 
     // Mock Form
-    scope.optionsForm                     = {model: {}};
+    scope.optionsForm                     = { model: {} };
     scope.optionsForm.model.$setValidity  = function() {};
 
     // Mock User
@@ -23,7 +23,7 @@ describe('Controller: SignupCtrl', function() {
       email: '',
       password: '',
       username: ''
-    }
+    };
   }));
 
   it('should set scope.errors[field] on mongoose error', function() {

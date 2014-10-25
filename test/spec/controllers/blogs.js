@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller Blogs', function() {
+describe('Controller: BlogsCtrl', function() {
   beforeEach(module('NordicArtsApp'));
 
   var BlogsCtrl;
