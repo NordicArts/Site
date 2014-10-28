@@ -38,7 +38,7 @@ app.set('view engine', 'html');
 if ('development' === app.get('env')) {
   app.set('views', __dirname + '/client/views');
 } else if ('production' === app.get('env')) {
-  app.set('views', __dirname + '/views');
+  app.set('views', __dirname + '/public/views');
   app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 }
 

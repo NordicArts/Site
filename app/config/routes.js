@@ -9,7 +9,6 @@ module.exports = function(app) {
   app.post('/auth/users', users.create);
   app.get('/auth/users/:userid', users.show);
   app.get('/auth/check_username/:username', users.exists); // Check
-  app.post('/auth/check_level', users.checkLevel);
   
   // Session
   var session = require('../controllers/session');
@@ -28,6 +27,7 @@ module.exports = function(app) {
   // Levels
   var levels = require('../controllers/levels');
   app.post('/api/levels', levels.create);
+  app.post('/api/check', levels.check);
   
   // BlogId
   app.param('blogId', blogs.blog);

@@ -49,8 +49,15 @@ angular.module('NordicArtsApp').factory('Auth', ['$location', '$rootScope', 'Ses
     checkLevel: function(levels, callback) {
       var cb = (callback || angular.noop);
       
-      UserLevel.check(levels, function(allowed) {
-        return cb(allowed);
+      if ($rootScope.currentUser !== "undefined") {
+        return cb("not allowed");
+      }
+      
+      UserLevel.check({
+        levels: levels,
+        userid: $rootScope.currentUser._id
+      }, function(allowed) {
+        return cb(null, allowed);
       }, function(err) {
         return cb(err.data);
       });

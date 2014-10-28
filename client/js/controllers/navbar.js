@@ -6,10 +6,16 @@ angular.module('NordicArtsApp').controller('NavbarCtrl', ['$scope', 'Auth', '$lo
     'link': 'blogs'
   }];
   
-  $scope.authMenu = [{
-    'title': 'Create New Blog',
-    'link': 'blogs/create'
-  }];
+  Auth.checkLevel(['Admin', 'SuperAdmin'] , function(error, isAllowed) {
+    if (error) { return; }
+    
+    if (isAllowed.allowed) {
+      $scope.authMenu = [{
+      'title': 'Create New Blog',
+      'link': 'blogs/create'
+    }];
+    }
+  });
 
   $scope.logout = function() {
     Auth.logout(function(err) {

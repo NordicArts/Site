@@ -2,15 +2,23 @@
 
 angular.module('NordicArtsApp').controller('BlogsCtrl', ['$scope', 'Blogs', '$location', '$routeParams', '$rootScope', 'Auth', function ($scope, Blogs, $location, $routeParams, $rootScope, Auth) {  
   $scope.create = function() {    
-    console.log(Auth);
-    
-    var blog = new Blogs({
-      title: this.title,
-      content: this.content
-    });
-    blog.$save(function(response) {
-      $location.path('blogs/' + response._id);
-    });
+    Auth.checkLevel(
+      ['Admin', 'SuperAdmin'], function(error, isAllowed) {            
+        if (error) {
+          $location.path("/").end();
+        }
+        
+        if (isAllowed.allowed) {
+          var blog = new Blogs({
+            title: this.title,
+            content: this.content
+          });
+          blog.$save(function(response) {
+            $location.path('blogs/' + response._id);
+          });
+        }
+      }
+    );
 
     this.title = '';
     this.content = '';
