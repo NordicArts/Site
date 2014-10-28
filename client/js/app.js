@@ -97,13 +97,24 @@ angular.module('NordicArtsApp', [
   });
   
   // Auth Required
-  $rootScope.$on('$routChangeStart', function(event, next, current) {
+  $rootScope.$on('$locationChangeStart', function(event, next, current) {
+    var checkLevel;
+    
     for (var route in mainRoutes) {
       if (next.indexOf(mainRoutes[route].path) !== -1) {
         if (mainRoutes[route].authLevel.length >= 1) {
-          
+          checkLevel = mainRoutes[route].authLevel;
         }
       }
+    }
+    
+    // Check the level
+    if (checkLevel) {
+      Auth.checkLevel(checkLevel, function(error, isAllowed) {
+        if (error) {
+          $location.path('/');
+        }
+      });
     }
   });
   
