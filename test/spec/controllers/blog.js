@@ -1,9 +1,9 @@
 'use strict';
 
-describe('Controller: BlogsCtrl', function() {
+describe('Controller: BlogCtrl', function() {
   beforeEach(module('NordicArtsApp'));
 
-  var BlogsCtrl;
+  var BlogCtrl;
   var scope;
   var $httpBackend;
   var blog;
@@ -40,24 +40,24 @@ describe('Controller: BlogsCtrl', function() {
 
   it('should get a blog from route params', function() {
     routeParams.blogId = blog.id;
-    BlogsCtrl          = $controller('BlogsCtrl', {
+    BlogCtrl          = $controller('BlogCtrl', {
       $scope: scope,
       $routeParams: routeParams
     });
 
-    $httpBackend.expectGET('api/blogs/' + blog.id).respond(blog);
+    $httpBackend.expectGET('api/blog/' + blog.id).respond(blog);
     scope.findOne();
     $httpBackend.flush();
     expect(scope.blog.name).toBe(blog.name);
   });
 
   it('should get array of blogs from route', function() {
-    BlogsCtrl = $controller('BlogsCtrl', {
+    BlogCtrl = $controller('BlogCtrl', {
       $scope: scope,
       $routeParams: routeParams
     });
     
-    $httpBackend.expectGET('api/blogs').respond(blogs);
+    $httpBackend.expectGET('api/blog').respond(blogs);
     scope.find();
     $httpBackend.flush();
     expect(scope.blogs[0].name).toBe(blogs[0].name);

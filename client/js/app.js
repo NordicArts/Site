@@ -11,19 +11,19 @@ var mainRoutes = [
   {
     path: '/blog',
     template: 'partials/blog/list.html',
-    controller: 'BlogsCtrl',
+    controller: 'BlogCtrl',
     authLevel: []
   },
   {
     path: '/blog/create',
     template: 'partials/blog/create.html',
-    controller: 'BlogsCtrl',
+    controller: 'BlogCtrl',
     authLevel: ['Admin', 'SuperAdmin']
   },
   {
     path: '/blog/:blogId/edit',
     template: 'partials/blog/edit.html',
-    controller: 'BlogsCtrl',
+    controller: 'BlogCtrl',
     authLevel: ['Admin', 'SuperAdmin']
   },
   {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('NordicArtsApp').controller('BlogsCtrl', ['$scope', 'Blogs', '$location', '$routeParams', '$rootScope', 'Auth', function ($scope, Blogs, $location, $routeParams, $rootScope, Auth) {  
+angular.module('NordicArtsApp').controller('BlogCtrl', ['$scope', 'Blog', '$location', '$routeParams', '$rootScope', 'Auth', function ($scope, Blogs, $location, $routeParams, $rootScope, Auth) {  
   $scope.create = function() {    
     Auth.checkLevel(
       ['Admin', 'SuperAdmin'], function(error, isAllowed) {            
@@ -14,7 +14,7 @@ angular.module('NordicArtsApp').controller('BlogsCtrl', ['$scope', 'Blogs', '$lo
             content: this.content
           });
           blog.$save(function(response) {
-            $location.path('blogs/' + response._id);
+            $location.path('blog/' + response._id);
           });
         }
       }
@@ -37,7 +37,7 @@ angular.module('NordicArtsApp').controller('BlogsCtrl', ['$scope', 'Blogs', '$lo
   $scope.update = function() {
     var blog = $scope.blog;
     blog.$update(function() {
-      $location.path('blogs/' + blog._id);
+      $location.path('blog/' + blog._id);
     });
   };
 

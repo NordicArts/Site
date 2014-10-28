@@ -1,0 +1,11 @@
+<section ng-init="find()">
+    <div ng-repeat="game in games">
+        <h1><a ng-href="games/{{game._id}}">{{game.title}}</a></h1>
+        <p>{{game.content}}</p>
+        <div>
+            <span class="badge badge-success">Posted {{game.created | date:'medium'}}</span>
+            <div class="pull-right"><span class="badge badge-success">Posted by {{game.creator.username}}</span></div>
+        </div>
+        <hr>
+    </div>
+</section>

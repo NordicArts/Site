@@ -17,20 +17,18 @@ module.exports = function(app) {
   app.delete('/auth/session', session.logout);
   
   // Blog
-  var blogs = require('../controllers/blogs');
-  app.get('/api/blogs', blogs.all);
-  app.post('/api/blogs', auth.ensureAuthenticated, blogs.create);
-  app.get('/api/blogs/:blogId', blogs.show);
-  app.put('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.update);
-  app.delete('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.destroy);
+  var blogs = require('../controllers/blog');
+  app.param('blogId', blogs.blog);
+  app.get('/api/blog', blogs.all);
+  app.post('/api/blog', auth.ensureAuthenticated, blogs.create);
+  app.get('/api/blog/:blogId', blogs.show);
+  app.put('/api/blog/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.update);
+  app.delete('/api/blog/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.destroy);
   
   // Levels
   var levels = require('../controllers/levels');
   app.post('/api/levels', levels.create);
-  app.post('/api/check', levels.check);
-  
-  // BlogId
-  app.param('blogId', blogs.blog);
+  app.post('/api/check', levels.check);  
   
   // Angular Routes
   app.get('/partials/*', function(req, res) {
