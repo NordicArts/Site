@@ -1,4 +1,6 @@
 'use strict';
+
+// The routes to use
 var mainRoutes = [
   {
     path: '/',
@@ -7,28 +9,52 @@ var mainRoutes = [
     authLevel: []
   },
   {
-    path: '/blogs',
-    template: 'partials/blogs/list.html',
+    path: '/blog',
+    template: 'partials/blog/list.html',
     controller: 'BlogsCtrl',
     authLevel: []
   },
   {
-    path: '/blogs/create',
-    template: 'partials/blogs/create.html',
+    path: '/blog/create',
+    template: 'partials/blog/create.html',
     controller: 'BlogsCtrl',
     authLevel: ['Admin', 'SuperAdmin']
   },
   {
-    path: '/blogs/:blogId/edit',
-    template: 'partials/blogs/edit.html',
+    path: '/blog/:blogId/edit',
+    template: 'partials/blog/edit.html',
     controller: 'BlogsCtrl',
     authLevel: ['Admin', 'SuperAdmin']
   },
   {
-    path: '/blogs/:blogId',
+    path: '/blog/:blogId',
     template: 'partials/blogs/view.html',
     controller: 'BlogsCtrl',
     authLevel: []
+  },
+  {
+    path: '/games',
+    template: 'partials/games/list.html',
+    controller: 'GamesCtrl',
+    authLevel: []
+  },
+  {
+    path: '/games/:gameId',
+    template: 'partials/games/view.html',
+    controller: 'GamesCtrl',
+    authLevel: []
+  },
+  {
+    path: 'games/create',
+    template: 'partials/games/create.html',
+    controller: 'GamesCtrl',
+    authLevel: ['Admin', 'SuperAdmin']
+  },
+  {
+    path: 'games/:gameId/edit',
+    template: 'partials/games/edit.html',
+    controller: 'GamesCtrl',
+    authLevel: ['Admin', 'SuperAdmin']
   },
   {
     path: '/login',
@@ -50,6 +76,7 @@ var mainRoutes = [
   }
 ];
 
+// Start module
 angular.module('NordicArtsApp', [
   'ngCookies',
   'ngResource',
@@ -76,8 +103,10 @@ angular.module('NordicArtsApp', [
     var isValidPath = false;
     var validPaths  = [
       /^\/$/,
-      /^\/blogs$/,
-      /^\/blogs\/[0-9a-zA-Z]*$/,
+      /^\/blog$/,
+      /^\/blog\/[0-9a-zA-Z]*$/,
+      /^\/games$/,
+      /^\/games\/[0-9a-zA-Z]*$/,
       /^\/login$/,
       /^\/logout$/,
       /^\/signup$/,
