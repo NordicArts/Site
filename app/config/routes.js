@@ -19,11 +19,20 @@ module.exports = function(app) {
   // Blog
   var blogs = require('../controllers/blog');
   app.param('blogId', blogs.blog);
-  app.get('/api/blog', blogs.all);
-  app.post('/api/blog', auth.ensureAuthenticated, blogs.create);
-  app.get('/api/blog/:blogId', blogs.show);
-  app.put('/api/blog/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.update);
-  app.delete('/api/blog/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.destroy);
+  app.get('/api/blogs', blogs.all);
+  app.get('/api/blogs/:blogId', blogs.show);
+  app.post('/api/blogs', auth.ensureAuthenticated, blogs.create);  
+  app.put('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.update);
+  app.delete('/api/blogs/:blogId', auth.ensureAuthenticated, auth.blog.hasAuthorization, blogs.destroy);
+  
+  // Games
+  var games = require('../controllers/game');
+  app.param('gameId', games.game);
+  app.get('/api/games', games.all);
+  app.get('/api/games/:gameId', games.show);
+  app.post('/api/games', auth.ensureAuthenticated, games.create);
+  app.put('/api/games/:gameId', auth.ensureAuthenticated, auth.game.hasAuthorization, games.update);
+  app.delete('/api/games/:gameId', auth.ensureAuthenticated, auth.game.hasAuthorization, games.destroy);
   
   // Levels
   var levels = require('../controllers/levels');

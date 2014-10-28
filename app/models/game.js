@@ -3,7 +3,7 @@
 var mongoose  = require('mongoose');
 var Schema    = mongoose.Schema;
 
-var BlogPostSchema = new Schema({
+var GameSchema = new Schema({
   title: {
     type: String,
     index: true,
@@ -27,7 +27,7 @@ var BlogPostSchema = new Schema({
   }
 });
 
-BlogPostSchema.pre('save', function(next, done) {
+GameSchema.pre('save', function(next, done) {
   if (this.isNew) {
     this.created = Date.now();
   }
@@ -36,7 +36,7 @@ BlogPostSchema.pre('save', function(next, done) {
   next();
 });
 
-BlogPostSchema.statics = {
+GameSchema.statics = {
   load: function(id, callback) {
     this.findOne({
       _id: id
@@ -49,7 +49,7 @@ BlogPostSchema.statics = {
   }
 };
 
-BlogPostSchema.methods.expressiveQuery = function(creator, date, callback) {
+GameSchema.methods.expressiveQuery = function(creator, date, callback) {
   return this.find('creator', creator).where('date').gte(date).run(callback);
 };
 
@@ -66,6 +66,6 @@ function slugGenerator(options) {
   };
 };
 
-BlogPostSchema.plugin(slugGenerator());
+GameSchema.plugin(slugGenerator());
 
-mongoose.model('BlogPost', BlogPostSchema);
+mongoose.model('Game', GameSchema);

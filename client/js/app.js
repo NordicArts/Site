@@ -8,6 +8,8 @@ var mainRoutes = [
     controller: 'MainCtrl',
     authLevel: []
   },
+  
+  // Blog Stuff
   {
     path: '/blog',
     template: 'partials/blog/list.html',
@@ -32,30 +34,34 @@ var mainRoutes = [
     controller: 'BlogsCtrl',
     authLevel: []
   },
+  
+  // Game Stuff
   {
     path: '/games',
     template: 'partials/games/list.html',
-    controller: 'GamesCtrl',
+    controller: 'GameCtrl',
     authLevel: []
   },
   {
-    path: '/games/:gameId',
+    path: '/game/:gameId',
     template: 'partials/games/view.html',
-    controller: 'GamesCtrl',
+    controller: 'GameCtrl',
     authLevel: []
   },
   {
-    path: 'games/create',
+    path: 'game/create',
     template: 'partials/games/create.html',
-    controller: 'GamesCtrl',
+    controller: 'GameCtrl',
     authLevel: ['Admin', 'SuperAdmin']
   },
   {
-    path: 'games/:gameId/edit',
+    path: 'game/:gameId/edit',
     template: 'partials/games/edit.html',
-    controller: 'GamesCtrl',
+    controller: 'GameCtrl',
     authLevel: ['Admin', 'SuperAdmin']
   },
+  
+  // User Stuff
   {
     path: '/login',
     template: 'partials/user/login.html',
@@ -69,10 +75,16 @@ var mainRoutes = [
     authLevel: []
   },
   {
-    path: '/changepassword',
+    path: '/user/password',
     template: 'partials/user/password.html',
     controller: 'PasswordCtrl',
     authLevel: ['Registered', 'Admin', 'SuperAdmin']
+  },
+  {
+    path: '/forgot',
+    template: 'partials/user/forgot.html',
+    controller: 'PasswordCtrl',
+    authLevel: []
   }
 ];
 

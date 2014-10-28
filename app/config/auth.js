@@ -15,3 +15,12 @@ exports.blog = {
     next();
   }
 };
+
+exports.game = {
+  hasAuthorization: function(req, res, next) {
+    if (req.game.creator._id.toString() !== req.user._id.toString()) {
+      return res.status(403).end();
+    }
+    next();
+  }
+}

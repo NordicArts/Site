@@ -1,13 +1,13 @@
 'use strict';
 
-describe('Controller: BlogCtrl', function() {
+describe('Controller: GameCtrl', function() {
   beforeEach(module('NordicArtsApp'));
 
-  var BlogCtrl;
+  var GameCtrl;
   var scope;
   var $httpBackend;
-  var blog;
-  var blogs;
+  var game;
+  var games;
   var routeParams;
   var $controller;
 
@@ -17,13 +17,13 @@ describe('Controller: BlogCtrl', function() {
     scope         = $rootScope.$new();
 
     // Mock Blog
-    blog = {
+    game = {
       name: 'test',
       id: 1
     }
 
     // Mock Blogs
-    blogs = [
+    games = [
       {
         name: 'eeny',
         id: 2
@@ -38,29 +38,29 @@ describe('Controller: BlogCtrl', function() {
     routeParams = {};
   }));
 
-  it('should get a blog from route params', function() {
-    routeParams.blogId = blog.id;
-    BlogCtrl          = $controller('BlogCtrl', {
+  it('should get a game from route params', function() {
+    routeParams.gameId = game.id;
+    GameCtrl          = $controller('GameCtrl', {
       $scope: scope,
       $routeParams: routeParams
     });
 
-    $httpBackend.expectGET('api/blogs/' + blog.id).respond(blog);
+    $httpBackend.expectGET('api/games/' + game.id).respond(game);
     scope.findOne();
     $httpBackend.flush();
-    expect(scope.blog.name).toBe(blog.name);
+    expect(scope.game.name).toBe(game.name);
   });
 
-  it('should get array of blogs from route', function() {
-    BlogCtrl = $controller('BlogCtrl', {
+  it('should get array of games from route', function() {
+    GameCtrl = $controller('GameCtrl', {
       $scope: scope,
       $routeParams: routeParams
     });
     
-    $httpBackend.expectGET('api/blogs').respond(blogs);
+    $httpBackend.expectGET('api/games').respond(games);
     scope.find();
     $httpBackend.flush();
-    expect(scope.blogs[0].name).toBe(blogs[0].name);
-    expect(scope.blogs[1].name).toBe(blogs[1].name);
+    expect(scope.games[0].name).toBe(games[0].name);
+    expect(scope.games[1].name).toBe(games[1].name);
   });
 });

@@ -27,6 +27,12 @@ exports.check = function(req, res, next) {
       return res.status(400).json(userError);
     }
     
+    if (!userResult) {
+      return res.status(400).json({
+        allowed: false
+      });
+    }
+    
     UserLevel.findOne({
       _id: userResult.level
     }, function(levelError, levelResult) {
