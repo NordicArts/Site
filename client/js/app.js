@@ -134,6 +134,7 @@ angular.module('NordicArtsApp', [
     }
     if (!currentUser && !isValidPath) {
       Auth.currentUser();
+      Auth.adminLevel();
     }
   });
   

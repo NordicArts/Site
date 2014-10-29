@@ -46,6 +46,16 @@ angular.module('NordicArtsApp').factory('Auth', ['$location', '$rootScope', 'Ses
       });
     },
     
+    adminLevel: function() {
+      checkLevel(['Admin'], function(error, allowed) {        
+        if (allowed) {
+          if (allowed.allowed) {
+            $rootScope.adminLevel = true;
+          }
+        }
+      });
+    },
+    
     checkLevel: function(levels, callback) {
       var cb = (callback || angular.noop);
       
