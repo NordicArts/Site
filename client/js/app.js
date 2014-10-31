@@ -104,6 +104,14 @@ angular.module('NordicArtsApp', [
     });
   }
   
+  $routeProvider.when('/auth/:provider', {
+    resolve: {
+      redirect: ['$location', function($location) {
+        window.location.replace($location.absUrl());
+      }]
+    }
+  });
+  
   $routeProvider.otherwise({
     redirectTo: '/'
   });
@@ -122,7 +130,8 @@ angular.module('NordicArtsApp', [
       /^\/login$/,
       /^\/logout$/,
       /^\/signup$/,
-      /^\/changepassword$/
+      /^\/changepassword$/,
+      /^\/auth\/[a-zA-Z]*$/
     ];
     var path = $location.path();    
     
@@ -132,6 +141,7 @@ angular.module('NordicArtsApp', [
         break;
       }
     }
+    
     if (!currentUser && !isValidPath) {
       Auth.currentUser();
       Auth.adminLevel();
@@ -141,22 +151,31 @@ angular.module('NordicArtsApp', [
   // Auth Required
   $rootScope.$on('$locationChangeStart', function(event, next, current) {
     var checkLevel;
+    var authValid;
     
-    for (var route in mainRoutes) {
-      if (next.indexOf(mainRoutes[route].path) !== -1) {
-        if (mainRoutes[route].authLevel.length >= 1) {
-          checkLevel = mainRoutes[route].authLevel;
-        }
-      }
+    // Auth
+    if (next.indexOf('auth') !== -1) {
+      authValid = true;
     }
     
-    // Check the level
-    if (checkLevel) {
-      Auth.checkLevel(checkLevel, function(error, isAllowed) {
-        if (error) {
-          $location.path('/');
+    // Standard routes
+    if (!authValid) {
+      for (var route in mainRoutes) {
+        if (next.indexOf(mainRoutes[route].path) !== -1) {
+          if (mainRoutes[route].authLevel.length >= 1) {
+            checkLevel = mainRoutes[route].authLevel;
+          }
         }
-      });
+      }
+
+      // Check the level
+      if (checkLevel) {
+        Auth.checkLevel(checkLevel, function(error, isAllowed) {
+          if (error) {
+            $location.path('/');
+          }
+        });
+      }
     }
   });
   

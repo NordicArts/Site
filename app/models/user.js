@@ -16,6 +16,7 @@ var UserSchema = new Schema({
     unique: true,
     required: true
   },
+  displayName: String,
   hashedPassword: String,
   salt: String,
   admin: Boolean,
@@ -41,6 +42,7 @@ UserSchema.virtual('user_info').get(function() {
   return {
     '_id': this._id,
     'username': this.username,
+    'displayname': this.displayName,
     'email': this.email,
     'level': this.level,
     'forceChangePassword': this.forceChangePassword
@@ -120,9 +122,8 @@ UserSchema.statics.findByName = function(name, callback) {
   }, callback);
 };
 
-UserSchema.statics.createByProvider = function(providerDetails, callback) {  
-  console.log("Provider", providerDetails);
-  
+UserSchema.statics.createByProvider = function(providerDetails, callback) {    
+  // Facebook doenst have a username passback
   if (!providerDetails.username) {
     if (providerDetails.displayName) {
       providerDetails.username = providerDetails.displayName.replace(' ', '');
@@ -131,6 +132,10 @@ UserSchema.statics.createByProvider = function(providerDetails, callback) {
     }
   }
   
+  // Display name
+  if (!providerDetails.displayName) {
+    providerDetails.displayName = providerDetails.username;
+  }
   
   // if the account already exists
   this.findOne({
@@ -148,6 +153,7 @@ UserSchema.statics.createByProvider = function(providerDetails, callback) {
     mongoose.models['UserLevel'].findByLevel('Registered', function(levelErr, level) {
       mongoose.models['User'].create({
         username: providerDetails.username,
+        displayName: providerDetails.displayName,
         provider: providerDetails.provider,
         email: (providerDetails.username + '@' + providerDetails.provider + '.com'),
         level: level._id
