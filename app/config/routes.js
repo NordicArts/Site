@@ -2,6 +2,7 @@
 
 var path = require('path');
 var auth = require('./auth');
+var pass = require('./pass'); // Passport
 
 module.exports = function(app) {
   // Users
@@ -9,6 +10,27 @@ module.exports = function(app) {
   app.post('/auth/users', users.create);
   app.get('/auth/users/:userid', users.show);
   app.get('/auth/check_username/:username', users.exists); // Check
+  
+  // Passport
+  var passport = require('passport');
+  app.get('/auth/github', passport.authenticate('github'));
+  app.get('/auth/github/callback', passport.authenticate('github', {
+    failureRedirect: '/login'
+  }), function(req, res) {
+    res.redirect('/');
+  });
+  app.get('/auth/twitter', passport.authenticate('twitter'));
+  app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+    failureRedirect: '/login'
+  }), function(req, res) {
+    res.redirect('/');
+  });
+  app.get('/auth/facebook', passport.authenticate('facebook'));
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/login'
+  }), function(req, res) {
+    res.redirect('/');
+  });
   
   // Session
   var session = require('../controllers/session');

@@ -1,8 +1,9 @@
 'use strict';
 
-var mongoose  = require('mongoose');
-var Schema    = mongoose.Schema;
-var crypto    = require('crypto');
+var mongoose      = require('mongoose');
+var Schema        = mongoose.Schema;
+var crypto        = require('crypto');
+var ObjectId      = mongoose.Types.ObjectId;
 
 var UserSchema = new Schema({
   email: {
@@ -85,6 +86,11 @@ UserSchema.pre('save', function(next) {
   if (!this.isNew) {
     return next();
   }
+  
+  if (this.provider != "LocalProvider") {
+    next();
+  }
+  
   if (!validatePresenceOf(this.password)) {
     next(new Error('Invalid password'));
   } else {    
@@ -112,6 +118,44 @@ UserSchema.statics.findByName = function(name, callback) {
   return this.findOne({
     username: name
   }, callback);
+};
+
+UserSchema.statics.createByProvider = function(providerDetails, callback) {  
+  console.log("Provider", providerDetails);
+  
+  if (!providerDetails.username) {
+    if (providerDetails.displayName) {
+      providerDetails.username = providerDetails.displayName.replace(' ', '');
+    } else {
+      return callback('Provider Details are broken');
+    }
+  }
+  
+  
+  // if the account already exists
+  this.findOne({
+    username: providerDetails.username
+  }, function(findError, userDetails) {
+    if (userDetails) {
+      if (userDetails.provider === providerDetails.provider) {
+        return callback(findError, userDetails);
+      } else {
+        return callback('User created with different provider');
+      }
+    }
+    
+    // create the account
+    mongoose.models['UserLevel'].findByLevel('Registered', function(levelErr, level) {
+      mongoose.models['User'].create({
+        username: providerDetails.username,
+        provider: providerDetails.provider,
+        email: (providerDetails.username + '@' + providerDetails.provider + '.com'),
+        level: level._id
+      }, function(createErr, createdUser) {
+        return callback(createErr, createdUser);
+      });
+    });
+  });
 };
 
 mongoose.model('User', UserSchema);

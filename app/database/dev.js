@@ -40,14 +40,16 @@ module.exports = function(db) {
         password: 'password',
         email: 'keloran@nordicarts.net',
         level: getUserLevelId('SuperAdmin'),
-        forcePasswordChange: true
+        forcePasswordChange: true,
+        provider: 'PrePopulate'
       }).save();
       insert = new user({
         username: 'wd40',
         password: 'password',
         email: 'wd40@nordicarts.net',
         level: getUserLevelId('SuperAdmin'),
-        forcePasswordChange: true
+        forcePasswordChange: true,
+        provider: 'PrePopulate'
       }).save();
     }
     return;

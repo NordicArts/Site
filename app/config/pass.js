@@ -1,9 +1,20 @@
 'use strict';
 
-var mongoose       = require('mongoose');
-var passport       = require('passport');
-var LocalStrategy  = require('passport-local').Strategy;
-var User           = mongoose.model('User');
+var mongoose  = require('mongoose');
+var passport  = require('passport');
+
+// Strategys
+var LocalStrategy    = require('passport-local').Strategy;
+var GitHubStrategy   = require('passport-github').Strategy;
+var TwitterStrategy  = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+// DB Models
+var User       = mongoose.model('User');
+var UserLevel  = mongoose.model('UserLevel');
+
+// Keys
+var config  = require('./config');
 
 // Serialize Sessions
 passport.serializeUser(function(user, done) {
@@ -47,5 +58,26 @@ passport.use(new LocalStrategy({
       });
     }
     return done(null, user);
+  });
+}));
+
+// GitHub Strategy
+passport.use(new GitHubStrategy(config.github, function(accessToken, refreshToken, profile, done) {
+  User.createByProvider(profile, function(providerErr, providerUser) {
+    return done(providerErr, providerUser);
+  });
+}));
+
+// Twitter Stategy
+passport.use(new TwitterStrategy(config.twitter, function(accessToken, refreshToken, profile, done) {  
+  User.createByProvider(profile, function(providerErr, providerUser) {
+    return done(providerErr, providerUser);
+  });
+}));
+
+// Facebook Strategy
+passport.use(new FacebookStrategy(config.facebook, function(accessToken, refreshToken, profile, done) {
+  User.createByProvider(profile, function(providerErr, providerUser) {
+    return done(providerErr, providerUser);
   });
 }));

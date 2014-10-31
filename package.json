@@ -24,7 +24,10 @@
     "mongoose": "latest",
     "ejs": "latest",
     "underscore": "latest",
-    "lodash": "latest"
+    "lodash": "latest",
+    "passport-github": "^0.1.5",
+    "passport-twitter": "^1.0.2",
+    "passport-facebook": "^1.0.3"
   },
   "devDependencies": {
     "grunt": "latest",
@@ -66,8 +69,5 @@
   },
   "engines": {
     "node": ">=0.10.0"
-  },
-  "scripts": {
-    "test": "grunt test"
   }
 }
