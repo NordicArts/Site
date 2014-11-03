@@ -75,7 +75,7 @@ var mainRoutes = [
     authLevel: []
   },
   {
-    path: '/user/password',
+    path: '/account/password',
     template: 'partials/user/password.html',
     controller: 'PasswordCtrl',
     authLevel: ['Registered', 'Admin', 'SuperAdmin']
@@ -85,6 +85,20 @@ var mainRoutes = [
     template: 'partials/user/forgot.html',
     controller: 'PasswordCtrl',
     authLevel: []
+  },
+  {
+    path: '/account',
+    template: 'partials/user/index.html',
+    controller: 'UserCtrl',
+    authLevel: ['Registered', 'Admin', 'SuperAdmin']
+  },
+  
+  // Admin
+  {
+    path: '/admin',
+    template: 'partials/admin/index.html',
+    controller: 'AdminCtrl',
+    authLevel: ['Admin', 'SuperAdmin']
   }
 ];
 

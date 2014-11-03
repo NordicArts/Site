@@ -84,7 +84,7 @@ if ('development' === app.get('env')) {
 
 // Build DB
 if ('development' === app.get('env')) {
-  //require('./app/database/dev')(db);
+  require('./app/database/dev')(db);
 } else if ('production' == app.get('env')) {
   require('./app/database/live')(db);
 }

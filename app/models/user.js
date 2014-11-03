@@ -84,11 +84,18 @@ UserSchema.path('username').validate(function(value, respond) {
   });
 }, 'Username in use');
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function(next) {  
   if (!this.isNew) {
     return next();
   }
   
+  // DisplayName
+  if (!this.displayName) {
+    this.displayName = this.username;
+    next();
+  }
+  
+  // Provider
   if (this.provider != "LocalProvider") {
     next();
   }
@@ -116,12 +123,32 @@ UserSchema.methods = {
   }
 };
 
+// Find the account by userid and password
+UserSchema.statics.findByPassword = function(details, callback) {
+  this.findOne({
+    _id: details._id
+  }, function(err, result) {
+    if (err) {
+      return callback(err);
+    }
+    var hashPass = function(passwd, userSalt) {
+      var salt = new Buffer(userSalt, 'base64');      
+      return crypto.pbkdf2Sync(passwd, salt, 10000, 64).toString('base64');
+    };
+    var res = hashPass(details.password, result.salt);
+    
+    return callback(null, res);
+  });
+};
+
+// Find the account by the account name
 UserSchema.statics.findByName = function(name, callback) {
   return this.findOne({
     username: name
   }, callback);
 };
 
+// Create an account using a provider
 UserSchema.statics.createByProvider = function(providerDetails, callback) {    
   // Facebook doenst have a username passback
   if (!providerDetails.username) {

@@ -38,19 +38,29 @@ module.exports = function(db) {
       insert = new user({
         username: 'Keloran',
         password: 'password',
+        displayName: 'Keloran',
         email: 'keloran@nordicarts.net',
         level: getUserLevelId('SuperAdmin'),
         forcePasswordChange: true,
         provider: 'PrePopulate'
-      }).save();
+      }).save(function(err, created) {
+        if (err) {
+          console.log(err);
+        }
+      });
       insert = new user({
         username: 'wd40',
         password: 'password',
+        displayName: 'Chris',
         email: 'wd40@nordicarts.net',
         level: getUserLevelId('SuperAdmin'),
         forcePasswordChange: true,
         provider: 'PrePopulate'
-      }).save();
+      }).save(function(err, created) {
+        if (err) {
+          console.log(err);
+        }
+      });
     }
     return;
   })

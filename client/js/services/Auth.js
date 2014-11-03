@@ -3,6 +3,20 @@
 angular.module('NordicArtsApp').factory('Auth', ['$location', '$rootScope', 'Session', 'User', '$cookieStore', 'UserLevel', function Auth($location, $rootScope, Session, User, $cookieStore, UserLevel) {
   $rootScope.currentUser = ($cookieStore.get('user') || null);
   $cookieStore.remove('user');
+  $rootScope.adminUser = function() {      
+    if (!$rootScope.currentUser) {
+      return null;
+    }
+    
+    UserLevel.check({
+      levels: ["Admin", "SuperAdmin"],
+      userid: $rootScope.currentUser._id
+    }, function(allowed) {
+      return true;
+    }, function(err) {
+      return null;
+    });
+  };
 
   return {
     login: function(provider, user, callback) {
@@ -73,15 +87,14 @@ angular.module('NordicArtsApp').factory('Auth', ['$location', '$rootScope', 'Ses
       });
     },
 
-    changePassword: function(email, oldPassword, newPassword, callback) {
+    changePassword: function(oldPassword, newPassword, callback) {
       var cb = (callback || angular.noop);
-      User.update({
-        email: email,
+      User.updatePassword({
+        userid: $rootScope.currentUser._id,
         oldPassword: oldPassword,
         newPassword: newPassword
       }, function(user) {
-        console.log('password changed for ' + user);
-        return cb();
+        return cb(null, "Password updated");
       }, function(err) {
         return cb(err.data);
       });
@@ -89,7 +102,7 @@ angular.module('NordicArtsApp').factory('Auth', ['$location', '$rootScope', 'Ses
     
     checkPasswordStatus: function(callback) {
       var cb = (callback || angular.noop);
-      return cb($rootScope.user.forceChangePassword);
+      return cb($rootScope.currentUser.forceChangePassword);
     },
 
     removeUser: function(email, password, callback) {
@@ -98,7 +111,6 @@ angular.module('NordicArtsApp').factory('Auth', ['$location', '$rootScope', 'Ses
         email: email,
         password: password
       }, function(user) {
-        console.log(user + 'removed');
         return cb();
       }, function(err) {
         return cb(err.data);

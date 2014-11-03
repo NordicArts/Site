@@ -27,6 +27,7 @@ exports.check = function(req, res, next) {
       return res.status(400).json(userError);
     }
     
+    //console.log("User Result", userResult);
     if (!userResult) {
       return res.status(400).json({
         allowed: false
@@ -36,15 +37,19 @@ exports.check = function(req, res, next) {
     UserLevel.findOne({
       _id: userResult.level
     }, function(levelError, levelResult) {
+      
+      //console.log("Level Result", levelResult);
       if (levelError) {
         return res.status(400).json(levelError);
       }
       
-      for (var i = 0; i < levels.length; i++) {
-        if (levels[i] === levelResult.level) {
-          return res.json({
-            allowed: true
-          });
+      if (levelResult) {
+        for (var i = 0; i < levels.length; i++) {        
+          if (levels[i] === levelResult.level) {
+            return res.json({
+              allowed: true
+            });
+          }
         }
       }
       

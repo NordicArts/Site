@@ -10,6 +10,7 @@ module.exports = function(app) {
   app.post('/auth/users', users.create);
   app.get('/auth/users/:userid', users.show);
   app.get('/auth/check_username/:username', users.exists); // Check
+  app.put('/auth/users/password', users.updatePassword);
   
   // Passport
   var passport = require('passport');

@@ -19,11 +19,18 @@ angular.module('NordicArtsApp').controller('NavbarCtrl', ['$scope', 'Auth', '$lo
       $scope.authMenu = [
         {
           'title': 'Add Game',
-          'link': 'games/create'
+          'link': 'games/create',
+          'icon': 'glyphicon-tower'
         },
         {
           'title': 'Add Blog Entry',
-          'link': 'blog/create'
+          'link': 'blog/create',
+          'icon': 'glyphicon-book'
+        },
+        {
+          'title': 'Admin',
+          'link': 'admin',
+          'icon': 'glyphicon-dashboard'
         }
       ];
     }

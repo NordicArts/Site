@@ -84,7 +84,41 @@ exports.updateLevel = function(req, res, next) {
   var userId       = req.params.userid;
   var userLevel    = req.params.level;
   var targetId     = req.params.targetid;
-  var targetLevel  = req.params.targetlevel;
-  
-    
+  var targetLevel  = req.params.targetlevel;  
 };
+
+exports.updatePassword = function(req, res, next) {
+  var userid      = req.body.userid;
+  var oldPassword = req.body.oldPassword;
+  var newPassword = req.body.newPassword;
+  
+  User.findByPassword({
+    _id: userid,
+    password: oldPassword
+  }, function(err, hashedPass) {
+    if (err) {
+      return next(new Error(err));
+    }
+    
+    if (hashedPass) {
+      User.findOne({
+        _id: userid,
+        hashedPassword: hashedPass
+      }, function(error, userRes) {
+        if (error) {
+          return next(new Error(error));
+        }
+        
+        userRes.password = newPassword;
+        userRes.forceChangePassword = true;
+        userRes.save(function(saveErr, saved) {
+          if (saveErr) {
+            return next(new Error(saveErr));
+          }
+          
+          return next(saved);
+        });
+      });
+    }
+  });
+}

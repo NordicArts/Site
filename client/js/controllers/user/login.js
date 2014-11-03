@@ -11,12 +11,14 @@ angular.module('NordicArtsApp').controller('LoginCtrl', ['$scope', 'Auth', '$loc
     }, function(err) {
       $scope.errors = {};
 
-      if (!err) {
-        if (Auth.checkPasswordStatus) {
-          $location.path('/changepassword');
-        } else {
-          $location.path('/');
-        }
+      if (!err) {        
+        Auth.checkPasswordStatus(function(forceReset) {
+          if (forceReset) {
+            $location.path('/account/password');
+          } else {
+            $location.path('/');
+          }
+        });
       } else {
         angular.forEach(err.errors, function(error, field) {
           form[field].$setValidity('mongoose', false);
